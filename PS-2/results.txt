@@ -1,0 +1,133 @@
+rows: 32686 | missing values: 0
+period: 2016-09-01 00:00:08 -> 2016-12-31 23:55:01
+distinct days: 118 (Sep 1 - Dec 31 would be 122)
+biggest gap between readings: 2 days 14:24:49 ending 2016-12-08 11:10:42
+humidity readings above 100%: 4311
+
+mean radiation by hour:
+hour
+0       1.3
+1       1.4
+2       1.4
+3       1.4
+4       1.4
+5       1.4
+6       9.8
+7     128.8
+8     370.4
+9     550.7
+10    681.4
+11    713.7
+12    727.5
+13    649.5
+14    515.2
+15    370.7
+16    208.7
+17     54.6
+18      3.0
+19      1.3
+20      1.3
+21      1.4
+22      1.3
+23      1.3
+peak hour: 12 -> 727.5
+
+correlation with Radiation (all hours):
+Temperature    0.735
+Pressure       0.119
+Humidity      -0.226
+WindDir       -0.230
+WindSpeed      0.074
+
+correlation with Radiation (daytime only):
+Temperature    0.646
+Pressure       0.235
+Humidity      -0.394
+WindDir       -0.154
+WindSpeed      0.126
+
+daytime mean radiation by humidity band:
+             mean  count
+Humidity                
+(0, 40]     564.1   2433
+(40, 60]    636.6   2094
+(60, 80]    556.1   2868
+(80, 100]   320.3   6558
+(100, 110]  208.6   1655
+
+daytime radiation IQR fences: -820.6 to 1669.3
+readings above 1200 W/m²: 49
+           datetime  Radiation  Temperature  Humidity  WindSpeed
+2016-09-04 12:15:04    1601.26           61        93       9.00
+2016-09-04 11:45:06    1475.40           60        91       6.75
+2016-10-19 12:40:20    1451.41           58        98       1.12
+2016-10-07 12:35:19    1420.39           60        86       3.37
+2016-10-31 11:05:18    1410.52           53        96      11.25
+2016-09-27 11:35:24    1387.17           63        69       9.00
+2016-09-04 10:55:14    1368.35           59        95       6.75
+2016-09-12 11:55:23    1359.79           63        77       6.75
+wind speed 99th percentile: 16.87 | max: 40.5
+midday (10-14h) readings under 200 W/m²: 784 out of 6763
+
+daytime mean radiation per month: {9: 467.9, 10: 468.2, 11: 480.0, 12: 306.3}
+time of max mean radiation: 12.0 h | time of max mean temperature: 13.0 h
+4 Sep: mean humidity 93.9 | mean radiation 153.6 | overall mean 207.1
+
+============================================================
+PART C - day wise report
+============================================================
+date with highest radiation: 2016-09-04
+max radiation: 1601.26 W/m²
+time of the peak: 12:15:04
+temperature then: 61 °F
+humidity then: 93 %
+wind speed then: 9.0 mph
+sunrise: 06:08 | sunset: 18:35 | day length: 0 days 12:27:00
+peak came 0 days 06:07:04 after sunrise  (~ 6.12 hours)
+that is 49.1 % of the way through the day
+time left before sunset: 0 days 06:19:56
+
+across all days, peak occurs on average 5.79 h after sunrise (median 5.76 )
+
+top 5 days by average radiation:
+            max_radiation  avg_radiation  readings
+date                                              
+2016-09-19        1085.75         335.50       275
+2016-09-02        1062.01         333.47       279
+2016-09-22        1053.17         325.52       284
+2016-09-25        1075.29         319.92       284
+2016-09-28        1029.30         312.40       282
+
+top 5 days by max radiation (for comparison):
+            max_radiation  avg_radiation  readings
+date                                              
+2016-09-04        1601.26         153.58       280
+2016-10-19        1451.41         183.27       288
+2016-10-07        1420.39         180.16       284
+2016-10-31        1410.52         195.00       287
+2016-09-27        1387.17         220.85       281
+
+whole daily report saved to daily_solar_report.csv (118, 3)
+
+============================================================
+BONUS - predicting radiation
+============================================================
+Linear regression            RMSE =  191.25   R2 = 0.6238
+Random forest (200 trees)    RMSE =   76.36   R2 = 0.9400
+
+split by date (train before 2016-12-08 , test after):
+Random forest, date split    RMSE =  131.45   R2 = 0.7497
+
+random forest feature importance:
+Temperature           0.5720
+mins_since_sunrise    0.1616
+mins_to_sunset        0.0827
+hour_dec              0.0768
+Humidity              0.0380
+day_of_year           0.0336
+Pressure              0.0146
+WindDir               0.0140
+WindSpeed             0.0068
+
+weather columns only (no time features):
+Random forest, weather only  RMSE =  156.15   R2 = 0.7492
